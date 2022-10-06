@@ -1,0 +1,35 @@
+name: zookeeper
+summary: Hello World
+description: The most basic example of a ROCK.
+version: "3.6.3"
+base: ubuntu:20.04
+license: Apache-2.0
+cmd: [bin/zkServer.sh, --config, /snap/zookeeper/current/conf, start]
+platforms:
+  amd64:  # Make sure this value matches your computer's architecture
+
+env:
+  - JAVA_HOME: $SNAP/usr/lib/jvm/java-8-openjdk-amd64/jre
+  - ZOO_LOG_DIR: /var/snap/zookeeper/common
+
+parts:
+  zookeeper:
+    plugin: nil
+    source: https://dlcdn.apache.org/zookeeper/zookeeper-3.6.3/apache-zookeeper-3.6.3-bin.tar.gz
+    stage-packages:
+    - openjdk-8-jre-headless
+    build-environment:
+    - JAVA_HOME: /usr/lib/jvm/java-8-openjdk-amd64/
+    override-build: |-
+      rockcraft build
+      sed -i "s:dataDir=/tmp/zookeeper:dataDir=/var/snap/zookeeper/common:g" conf/zoo_sample.cfg
+      cp conf/zoo_sample.cfg conf/zoo.cfg
+      # sed -i '158i echo $ZOO_LOG_DIR' bin/zkServer.sh
+      # sed -i "s:#!/usr/bin/env bash:#!/bin/bash -x:g" bin/zkServer.sh
+      cp -r ./* $CRAFT_PART_INSTALL
+    # override-prime: |
+    #   snapcraftctl prime
+    #   # remove dangling symlink
+    #   # https://forum.snapcraft.io/t/resolve-package-contains-external-symlinks-error-when-trying-to-snap/2963
+    #   # https://bugs.openjdk.java.net/browse/JDK-8253866
+    #   rm -vf usr/lib/jvm/java-11-openjdk-*/lib/security/blacklisted.certs
