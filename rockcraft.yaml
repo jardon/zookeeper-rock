@@ -1,16 +1,19 @@
 name: zookeeper
-summary: Hello World
-description: The most basic example of a ROCK.
+summary: Apache Zookeeper in a ROCK.
+description: |
+  ZooKeeper is a centralized service for maintaining configuration 
+  information, naming, providing distributed synchronization, and 
+  providing group services.
 version: "3.6.3"
 base: ubuntu:20.04
 license: Apache-2.0
-cmd: [bin/zkServer.sh, --config, /conf, start-foreground]
+cmd: [/opt/zookeeper/bin/zkServer.sh, --config, /opt/zookeeper/conf, start-foreground]
 platforms:
   amd64:  # Make sure this value matches your computer's architecture
 
 env:
   - JAVA_HOME: /usr/lib/jvm/java-8-openjdk-amd64/jre
-  - ZOO_LOG_DIR: /
+  - ZOO_LOG_DIR: /opt/zookeeper/logs
 
 parts:
   zookeeper:
@@ -21,5 +24,10 @@ parts:
     build-environment:
     - JAVA_HOME: /usr/lib/jvm/java-8-openjdk-amd64/
     override-build: |
-      cp conf/zoo_sample.cfg conf/zoo.cfg
-      cp -r ./* $CRAFT_PART_INSTALL
+      mkdir -p $CRAFT_PART_INSTALL/opt/zookeeper/logs
+      mkdir $CRAFT_PART_INSTALL/data
+      mkdir $CRAFT_PART_INSTALL/datalog
+      cp -r ./* $CRAFT_PART_INSTALL/opt/zookeeper
+      cp conf/zoo_sample.cfg $CRAFT_PART_INSTALL/opt/zookeeper/conf/zoo.cfg
+      sed -i "s:dataDir=/tmp/zookeeper:dataDir=/data:g" $CRAFT_PART_INSTALL/opt/zookeeper/conf/zoo.cfg
+      echo "dataLogDir=/datalog" >> $CRAFT_PART_INSTALL/opt/zookeeper/conf/zoo.cfg
