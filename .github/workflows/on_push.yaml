@@ -8,8 +8,6 @@ on:
 
 jobs:
   publish:
-    name: Publish Snap
+    name: Publish ROCK
     uses: ./.github/workflows/publish.yaml
     secrets: inherit
-    with:
-      channel: $GITHUB_REF_NAME
