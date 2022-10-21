@@ -11,3 +11,5 @@ jobs:
     name: Publish ROCK
     uses: ./.github/workflows/publish.yaml
     secrets: inherit
+    with:
+      tag: ${{ github.ref_name }}
