@@ -16,6 +16,8 @@ parts:
   zookeeper:
     plugin: nil
     source: https://dlcdn.apache.org/zookeeper/zookeeper-3.6.3/apache-zookeeper-3.6.3-bin.tar.gz
+    organize:
+      /root/project: /opt/zookeeper
     stage-packages:
     - openjdk-8-jre-headless
     build-environment:
