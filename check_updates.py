@@ -5,9 +5,11 @@
 import requests
 import subprocess
 import re
+import yaml
 from bs4 import BeautifulSoup
+from pathlib import Path
 
-def get_releases():
+def _get_releases():
     URL = "https://dlcdn.apache.org/zookeeper/"
     page = requests.get(URL)
 
@@ -21,14 +23,36 @@ def get_releases():
             releases.append(short_link[10:])
     return releases
 
-def get_branches():
-    git_branch = subprocess.run(["git", "branch", "-r"], capture_output=True, text=True).stdout
-    return re.findall("\d.\d.\d+", git_branch)
+def _get_branch_versions():
+    git_branch = subprocess.run(["git", "branch", "-r", "-q"], capture_output=True, text=True).stdout
+    short_versions = list(set(re.findall("\d.\d+", git_branch)))
+    versions = []
+    for version in short_versions:
+        versions.append(get_snap_version(version))
+    return versions
+
+def get_snap_version(version):
+    subprocess.run(["git", "checkout", f"{version}/stable", "-q"])
+    return yaml.safe_load(Path('snap/snapcraft.yaml').read_text())['version']
+
 
 def diff_versions():
-    return [ x for x in get_releases() if x not in get_branches() ]
-    
+    branches = _get_branch_versions()
+    return [ x for x in _get_releases() if x not in branches ]
 
-if __name__ == "__main__":
+def diff_versions_short():
+    return [ get_short_version(x) for x in diff_versions() ] 
+
+def get_short_version(version):
+    return re.findall("\d.\d+", version)[0]
+
+def print_short_versions():
+    for version in diff_versions_short():
+        print(version)
+
+def print_versions():
     for version in diff_versions():
         print(version)
+
+if __name__ == "__main__":
+    print_versions()
