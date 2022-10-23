@@ -28,7 +28,7 @@ def _get_branch_versions():
     short_versions = list(set(re.findall("\d.\d+", git_branch)))
     versions = []
     for version in short_versions:
-        versions.append(get_snap_version(version))
+        versions.append(get_rock_version(version))
     return versions
 
 def get_rock_version(version):
