@@ -31,9 +31,9 @@ def _get_branch_versions():
         versions.append(get_snap_version(version))
     return versions
 
-def get_snap_version(version):
+def get_rock_version(version):
     subprocess.run(["git", "checkout", f"{version}/stable", "-q"])
-    return yaml.safe_load(Path('snap/snapcraft.yaml').read_text())['version']
+    return yaml.safe_load(Path('rockcraft.yaml').read_text())['version']
 
 
 def diff_versions():
