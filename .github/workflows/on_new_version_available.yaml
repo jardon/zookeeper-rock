@@ -56,13 +56,17 @@ jobs:
         run: |
           git config user.name "GitHub Actions"
           git config user.email noreply@github.com
-          git add snap/snapcraft.yaml
+          git add rockcraft.yaml
           git commit -m "Prepare release of version ${{ steps.get-short-version.outputs.SHORT_VERSION }}/stable"
       - name: push
         run: git push origin ${{ steps.get-short-version.outputs.SHORT_VERSION }}/stable
 
   publish:
     name: Publish Rock
+    needs: get-versions-diff
+    strategy:
+      matrix:
+        versions: ${{ fromJson(needs.get-versions-diff.outputs.matrix) }}
     uses: ./.github/workflows/publish.yaml
     secrets: inherit
     with:
