@@ -22,7 +22,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
-          ref: ${{ inputs.tag }}/stable
+          ref: ${{ inputs.tag }}
       - name: Setup Docker
         run: |
           sudo snap install docker
