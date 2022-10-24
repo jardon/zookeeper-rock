@@ -51,7 +51,7 @@ jobs:
           echo "LONG_VERSION=$(cat rockcraft.yaml | yq e '.version')" >> $GITHUB_OUTPUT
       - name: inject-version
         run: |
-          sed -i "s:{{ steps.get-version.outputs.LONG_VERSION }}:${{ matrix.versions }}:g" rockcraft.yaml
+          sed -i "s:${{ steps.get-version.outputs.LONG_VERSION }}:${{ matrix.versions }}:g" rockcraft.yaml
       - name: commit
         run: |
           git config user.name "GitHub Actions"
