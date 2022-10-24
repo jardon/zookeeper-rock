@@ -63,7 +63,7 @@ jobs:
 
   publish:
     name: Publish Rock
-    needs: get-versions-diff
+    needs: [get-versions-diff, create-branch]
     strategy:
       matrix:
         versions: ${{ fromJson(needs.get-versions-diff.outputs.matrix) }}
