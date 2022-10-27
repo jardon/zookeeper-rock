@@ -31,3 +31,4 @@ parts:
       cp conf/zoo_sample.cfg $CRAFT_PART_INSTALL/opt/zookeeper/conf/zoo.cfg
       sed -i "s:dataDir=/tmp/zookeeper:dataDir=/data:g" $CRAFT_PART_INSTALL/opt/zookeeper/conf/zoo.cfg
       echo "dataLogDir=/datalog" >> $CRAFT_PART_INSTALL/opt/zookeeper/conf/zoo.cfg
+      ln -s /usr/lib/jvm/java-8-openjdk-amd64/bin/keytool /usr/bin/keytool
