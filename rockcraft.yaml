@@ -7,7 +7,7 @@ description: |
 version: "3.6.3"
 base: ubuntu:20.04
 license: Apache-2.0
-cmd: [/opt/zookeeper/bin/zkServer.sh, --config, /opt/zookeeper/conf, start-foreground]
+cmd: [/opt/zookeeper/bin/zkServer.sh, --config, /conf, start-foreground]
 platforms:
   amd64:  # Make sure this value matches your computer's architecture
 
@@ -27,8 +27,10 @@ parts:
       mkdir -p $CRAFT_PART_INSTALL/opt/zookeeper/logs
       mkdir $CRAFT_PART_INSTALL/data
       mkdir $CRAFT_PART_INSTALL/datalog
+      mkdir $CRAFT_PART_INSTALL/conf
       cp -r ./* $CRAFT_PART_INSTALL/opt/zookeeper
-      cp conf/zoo_sample.cfg $CRAFT_PART_INSTALL/opt/zookeeper/conf/zoo.cfg
-      sed -i "s:dataDir=/tmp/zookeeper:dataDir=/data:g" $CRAFT_PART_INSTALL/opt/zookeeper/conf/zoo.cfg
-      echo "dataLogDir=/datalog" >> $CRAFT_PART_INSTALL/opt/zookeeper/conf/zoo.cfg
+      cp -r ./conf $CRAFT_PART_INSTALL
+      cp conf/zoo_sample.cfg $CRAFT_PART_INSTALL/conf/zoo.cfg
+      sed -i "s:dataDir=/tmp/zookeeper:dataDir=/data:g" $CRAFT_PART_INSTALL/conf/zoo.cfg
+      echo "dataLogDir=/datalog" >> $CRAFT_PART_INSTALL/conf/zoo.cfg
       ln -s /usr/lib/jvm/java-8-openjdk-amd64/bin/keytool $CRAFT_PART_INSTALL/usr/bin/keytool
