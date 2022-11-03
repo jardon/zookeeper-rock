@@ -54,5 +54,5 @@ jobs:
             --insecure-policy \
             copy \
             oci-archive:"zookeeper_${version}_amd64.rock" \
-            docker-daemon:"jardon/zookeeper:${version}"
-          docker push "jardon/zookeeper:${version}"
+            docker-daemon:"${{ github.repository_owner }}/zookeeper:${version}"
+          docker push "${{ github.repository_owner }}/zookeeper:${version}"
