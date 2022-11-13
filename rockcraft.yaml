@@ -4,7 +4,7 @@ description: |
   ZooKeeper is a centralized service for maintaining configuration 
   information, naming, providing distributed synchronization, and 
   providing group services.
-version: "3.6.3"
+version: "3.7.1"
 base: ubuntu:20.04
 license: Apache-2.0
 cmd: [/opt/zookeeper/bin/zkServer.sh, --config, /conf, start-foreground]
@@ -18,7 +18,7 @@ env:
 parts:
   zookeeper:
     plugin: nil
-    source: https://dlcdn.apache.org/zookeeper/zookeeper-3.6.3/apache-zookeeper-3.6.3-bin.tar.gz
+    source: https://dlcdn.apache.org/zookeeper/zookeeper-3.7.1/apache-zookeeper-3.7.1-bin.tar.gz
     stage-packages:
     - openjdk-8-jre-headless
     build-environment:
