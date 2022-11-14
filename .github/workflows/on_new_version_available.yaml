@@ -60,7 +60,4 @@ jobs:
           git commit -m "Prepare release of version ${{ steps.get-short-version.outputs.SHORT_VERSION }}/stable"
       - name: push
         run: git push origin ${{ steps.get-short-version.outputs.SHORT_VERSION }}/stable
-      - name: publish
-        uses: ./.github/workflows/publish.yaml
-        with:
-          tag: ${{ steps.get-short-version.outputs.SHORT_VERSION }}/stable
+
