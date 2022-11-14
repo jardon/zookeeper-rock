@@ -4,5 +4,3 @@ on:
 jobs:
   build:
       uses: ./.github/workflows/build.yaml
-      with:
-        branch: ${{ github.ref_name }}
