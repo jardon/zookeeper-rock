@@ -2,17 +2,5 @@ on:
   pull_request:
 
 jobs:
-  check-branch:
-    runs-on: ubuntu-latest
-    steps:
-      - name: check-ref
-        run: |
-          echo ${{ github.ref_name }}
-      - name: checkout
-        uses: actions/checkout@v3
-        with:
-          ref: ${{ github.ref_name }}
   build:
       uses: ./.github/workflows/build.yaml
-      with:
-        branch: ${{ github.ref_name }}
