@@ -17,6 +17,8 @@ jobs:
       - name: Install rockcraft
         run: |
           sudo snap install --classic --channel edge rockcraft
+      - name: Update APT metadata
+        run: sudo apt update
       - name: Build ROCK
         run: rockcraft pack --verbose
 
